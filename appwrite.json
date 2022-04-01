@@ -1,0 +1,17 @@
+{
+    "projectId": "flutter-stripe",
+    "projectName": "flutter-stripe",
+    "functions": [
+        {
+            "$id": "createPaymentIntent",
+            "name": "createPaymentIntent",
+            "runtime": "dart-2.16",
+            "path": "functions/stripe_payment",
+            "entrypoint": "lib/stripe_payment.dart",
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
+        }
+    ]
+}
