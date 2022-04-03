@@ -18,6 +18,8 @@ class CartItem extends ConsumerWidget {
         icon: const Icon(Icons.remove),
         onPressed: () {
           ref.watch(cartProvider.notifier).removeProduct(product.id);
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Product removed from the cart.")));
         },
       ),
     );

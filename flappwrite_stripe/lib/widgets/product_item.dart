@@ -18,6 +18,8 @@ class ProductItem extends ConsumerWidget {
         icon: const Icon(Icons.add_shopping_cart),
         onPressed: () {
           ref.watch(cartProvider.notifier).addProduct(product);
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Product add to the cart.")));
         },
       ),
     );
