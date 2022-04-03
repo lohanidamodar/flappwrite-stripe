@@ -1,2 +1,3 @@
 functions/stripe_payment/lib/.env.dart
 functions/stripe_payment/envs-from-function
+setup/bin/config.dart
