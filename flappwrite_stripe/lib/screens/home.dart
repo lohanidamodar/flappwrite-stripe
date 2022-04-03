@@ -12,7 +12,15 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home page'),
+        title: const Text('Appwrite Shop'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, 'cart');
+            },
+            icon: const Icon(Icons.shopping_cart),
+          )
+        ],
       ),
       body: FutureBuilder<DocumentList>(
           future: Database(context.authNotifier.client)

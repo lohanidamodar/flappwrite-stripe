@@ -3,8 +3,8 @@ import 'package:flappwrite_stripe/providers/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProductItem extends ConsumerWidget {
-  const ProductItem(this.product, {Key? key}) : super(key: key);
+class CartItem extends ConsumerWidget {
+  const CartItem(this.product, {Key? key}) : super(key: key);
 
   final Product product;
 
@@ -15,9 +15,9 @@ class ProductItem extends ConsumerWidget {
       subtitle: Text("\$${product.price}"),
       leading: Image.network(product.imageUrl),
       trailing: IconButton(
-        icon: const Icon(Icons.add_shopping_cart),
+        icon: const Icon(Icons.remove),
         onPressed: () {
-          ref.watch(cartProvider.notifier).addProduct(product);
+          ref.watch(cartProvider.notifier).removeProduct(product.id);
         },
       ),
     );

@@ -14,27 +14,14 @@ dependencies:
   flutter_stripe: ^2.4.0
   flappwrite_account_kit:
     git: https://github.com/lohanidamodar/flappwrite_account_kit
+  flutter_riverpod: ^1.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  
-  
-  
-  
-  
   flutter_lints: ^1.0.0
 
-
-
-
-
 flutter:
-
-  
-  
-  
   uses-material-design: true
 
   
