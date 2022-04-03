@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Appwrite Tote bag",
+        "price": 20.00,
+        "imageUrl": "https://i.ibb.co/1RcFPk0/appwrite-tote-bag.png"
+
+    },
+    {
+        "name": "Flutter T-Shirt",
+        "price": 30.00,
+        "imageUrl": "https://i.ibb.co/1RcFPk0/flutter-t-shirt.png"
+    },
+    {
+        "name": "Appwrite Thermos",
+        "price": 20.00
+    }
+]

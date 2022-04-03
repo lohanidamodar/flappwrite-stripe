@@ -16,6 +16,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("Register")),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
