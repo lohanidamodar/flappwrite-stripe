@@ -13,4 +13,14 @@ class CartNotifier extends StateNotifier<List<Product>> {
   }
 }
 
-final cartProvider = StateNotifierProvider<CartNotifier, List<Product>>((ref) => CartNotifier());
+final cartProvider =
+    StateNotifierProvider<CartNotifier, List<Product>>((ref) => CartNotifier());
+
+final cartTotalProvider = StateProvider<double>((ref) {
+  double total = 0.0;
+  final products = ref.watch(cartProvider);
+  for (var product in products) {
+    total += product.price;
+  }
+  return total;
+});

@@ -12,16 +12,38 @@ class CartScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     List<Product> products = ref.watch(cartProvider);
+    final total = ref.watch(cartTotalProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Cart'),
       ),
       body: products.isEmpty
           ? const Center(child: EmptyCart())
-          : ListView.builder(
-              itemCount: products.length,
-              padding: const EdgeInsets.all(16.0),
-              itemBuilder: (context, index) => CartItem(products[index]),
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: products.length,
+                    padding: const EdgeInsets.all(16.0),
+                    itemBuilder: (context, index) => CartItem(products[index]),
+                  ),
+                ),
+                ListTile(
+                  title: const Text("Total"),
+                  trailing: Text(
+                    "\$$total",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Checkout"),
+                  ),
+                ),
+              ],
             ),
     );
   }
