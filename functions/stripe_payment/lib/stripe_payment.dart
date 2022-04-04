@@ -44,6 +44,7 @@ Future<void> start(final request, final response) async {
     "request_three_d_secure": data['request_three_d_secure'] ?? 'any'
   });
   response.json({
+    "paymentIntent": paymentIntent
     "client_secret": paymentIntent!['client_secret'],
   });
 }
