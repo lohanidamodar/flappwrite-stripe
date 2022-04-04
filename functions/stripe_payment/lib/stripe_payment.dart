@@ -30,17 +30,29 @@ Future<void> start(final request, final response) async {
       .setJWT(jwt);
 
   final user = await getUser();
+  final prefs = user.prefs.data;
+  String? customerId = prefs['stripeCustomerId'];
 
-  final data = jsonDecode(request.env['APPWRITE_FUNCTION_DATA']);
   var stripe = Stripe(request.env['STRIPE_SECRET_KEY']);
 
-  final customer = await stripe.core.customers
-      .create(params: {"email": user.email});
-  print(customer);
+  // create account for customer if it doesn't already exist
+  dynamic customer;
+  if (customerId != null) {
+    customer =
+        await stripe.core.customers.create(params: {"email": user.email});
+    customerId = customer!['id'];
+    if (customerId == null) {
+      throw (customer.toString());
+    } else {
+      prefs['stripeCustomerId'] = customerId;
+      await account.updatePrefs(prefs: prefs);
+    }
+  }
+  final data = jsonDecode(request.env['APPWRITE_FUNCTION_DATA']);
   final paymentIntent = await stripe.core.paymentIntents!.create(params: {
     "amount": data['amount'],
     "currency": data['currency'],
-    "customer": customer!['id'],
+    "customer": customerId,
   });
   response.json({
     "paymentIntent": paymentIntent,
