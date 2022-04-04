@@ -81,7 +81,6 @@ class CheckoutScreen extends ConsumerWidget {
     final execution = await functions.createExecution(
         functionId: 'createPaymentIntent',
         data: jsonEncode({
-          'email': context.authNotifier.user!.email,
           'currency': 'usd',
           'amount': (total * 100).toInt(),
         }),
