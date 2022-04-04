@@ -11,6 +11,10 @@ class CartNotifier extends StateNotifier<List<Product>> {
   removeProduct(String productId) {
     state = state.where((element) => element.id != productId).toList();
   }
+
+  emptyCart() {
+    state = [];
+  }
 }
 
 final cartProvider =

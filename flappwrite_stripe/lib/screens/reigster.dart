@@ -41,12 +41,15 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           ElevatedButton(
             onPressed: () async {
-              await context.authNotifier.create(
+              final user = await context.authNotifier.create(
                 userId: 'unique()',
                 name: _nameController.text,
                 email: _emailController.text,
                 password: _passwordController.text,
               );
+              if (user != null) {
+                Navigator.pop(context);
+              }
             },
             child: const Text("Register"),
           ),

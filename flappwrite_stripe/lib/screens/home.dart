@@ -16,6 +16,12 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
+              context.authNotifier.deleteSession();
+            },
+            icon: const Icon(Icons.exit_to_app),
+          ),
+          IconButton(
+            onPressed: () {
               Navigator.pushNamed(context, 'cart');
             },
             icon: const Icon(Icons.shopping_cart),

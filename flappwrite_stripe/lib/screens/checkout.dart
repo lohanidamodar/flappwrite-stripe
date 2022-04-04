@@ -8,7 +8,6 @@ import 'package:flappwrite_account_kit/flappwrite_account_kit.dart';
 
 class CheckoutScreen extends ConsumerWidget {
   CheckoutScreen({Key? key}) : super(key: key);
-  final _emailController = TextEditingController();
   final _cardEditController = CardEditController();
 
   @override
@@ -20,16 +19,14 @@ class CheckoutScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          TextFormField(
-            controller: _emailController,
-          ),
-          const SizedBox(height: 10.0),
           CardField(
             controller: _cardEditController,
           ),
           ElevatedButton(
             onPressed: () async {
               if (!_cardEditController.complete) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Card details not entered completely")));
                 return;
               }
 
@@ -37,11 +34,11 @@ class CheckoutScreen extends ConsumerWidget {
                   context, ref.watch(cartTotalProvider));
 
               final billingDetails = BillingDetails(
-                email: _emailController.text,
+                email: context.authNotifier.user!.email,
                 phone: '+48888000888',
                 address: const Address(
                   city: 'Kathmandu',
-                  country: 'Nepal',
+                  country: 'NP',
                   line1: 'Chabahil, Kathmandu',
                   line2: '',
                   state: 'Bagmati',
@@ -49,20 +46,28 @@ class CheckoutScreen extends ConsumerWidget {
                 ),
               );
 
-              final paymentIntent = await Stripe.instance.confirmPayment(
-                clientSecret,
-                PaymentMethodParams.card(
-                  billingDetails: billingDetails,
-                  setupFutureUsage: PaymentIntentsFutureUsage.OffSession,
-                ),
-              );
-
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content:
-                      Text("Success!: The payment was confirmed successfully!"),
-                ),
-              );
+              try {
+                final paymentIntent = await Stripe.instance.confirmPayment(
+                  clientSecret,
+                  PaymentMethodParams.card(
+                    billingDetails: billingDetails,
+                    setupFutureUsage: PaymentIntentsFutureUsage.OffSession,
+                  ),
+                );
+                if (paymentIntent.status == PaymentIntentsStatus.Succeeded) {
+                  ref.read(cartProvider.notifier).emptyCart();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                          "Success!: The payment was confirmed successfully!"),
+                    ),
+                  );
+                  Navigator.pop(context);
+                }
+              } on StripeException catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(e.error.localizedMessage ?? e.toString())));
+              }
             },
             child: const Text("Confirm"),
           ),
@@ -76,12 +81,15 @@ class CheckoutScreen extends ConsumerWidget {
     final execution = await functions.createExecution(
         functionId: 'createPaymentIntent',
         data: jsonEncode({
-          'email': _emailController.text,
+          'email': context.authNotifier.user!.email,
           'currency': 'usd',
-          'amount': total,
-          'request_three_d_secure': 'any'
+          'amount': (total * 100).toInt(),
         }),
-        xasync: true);
-    return execution.stdout;
+        xasync: false);
+    if (execution.stdout.isNotEmpty) {
+      final data = jsonDecode(execution.stdout);
+      return data['client_secret'];
+    }
+    return '';
   }
 }
