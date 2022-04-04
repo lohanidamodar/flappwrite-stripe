@@ -39,7 +39,9 @@ class CartScreen extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'checkout');
+                    },
                     child: const Text("Checkout"),
                   ),
                 ),

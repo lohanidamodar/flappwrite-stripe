@@ -1,5 +1,6 @@
 import 'package:flappwrite_account_kit/flappwrite_account_kit.dart';
 import 'package:flappwrite_stripe/screens/cart.dart';
+import 'package:flappwrite_stripe/screens/checkout.dart';
 import 'package:flappwrite_stripe/screens/login.dart';
 import 'package:flappwrite_stripe/screens/main.dart';
 import 'package:flappwrite_stripe/screens/reigster.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         "login": (context) => const LoginPage(),
         "register": (context) => const RegisterPage(),
         "cart": (context) => const CartScreen(),
+        "checkout": (context) => CheckoutScreen()
       },
     );
   }
