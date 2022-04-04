@@ -8,7 +8,7 @@
             "runtime": "dart-2.16",
             "path": "functions/stripe_payment",
             "entrypoint": "lib/stripe_payment.dart",
-            "execute": [],
+            "execute": ["role:member"],
             "events": [],
             "schedule": "",
             "timeout": 15
