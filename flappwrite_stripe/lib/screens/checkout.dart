@@ -73,14 +73,15 @@ class CheckoutScreen extends ConsumerWidget {
 
   Future<String> fetchClientSecret(BuildContext context, double total) async {
     final functions = Functions(context.authNotifier.client);
-    functions.createExecution(
+    final execution = await functions.createExecution(
         functionId: 'createPaymentIntent',
         data: jsonEncode({
           'email': _emailController.text,
           'currency': 'usd',
-          'total': total,
+          'amount': total,
           'request_three_d_secure': 'any'
-        }));
-    return '';
+        }),
+        xasync: true);
+    return execution.stdout;
   }
 }

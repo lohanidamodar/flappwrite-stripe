@@ -16,7 +16,6 @@ class MainScreen extends StatelessWidget {
       case AuthStatus.authenticated:
         return const HomePage();
       case AuthStatus.authenticating:
-        return const SplashPage();
       case AuthStatus.unauthenticated:
         return const LoginPage();
     }

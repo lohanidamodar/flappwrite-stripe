@@ -6,17 +6,22 @@ import 'package:flappwrite_stripe/screens/main.dart';
 import 'package:flappwrite_stripe/screens/reigster.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'utils/config.dart' as config;
 
 final client = Client();
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  client
-      .setEndpoint('https://demo.appwrite.io/v1')
-      .setProject('flutter-stripe');
+  Stripe.publishableKey = config.publishableKey;
+  Stripe.merchantIdentifier = 'merchent.flappwrite.test';
+  Stripe.urlScheme = 'appwrite-callback-${config.projectId}';
+  client.setEndpoint(config.endpoint).setProject(config.projectId);
   runApp(
-    FlAppwriteAccountKit(
-      child: const ProviderScope(child: MyApp()),
-      client: client,
+    ProviderScope(
+      child: FlAppwriteAccountKit(
+        child: const MyApp(),
+        client: client,
+      ),
     ),
   );
 }

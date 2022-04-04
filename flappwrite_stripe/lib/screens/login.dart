@@ -26,18 +26,23 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextField(
             controller: _passwordController,
+            obscureText: true,
             decoration: const InputDecoration(
               labelText: 'Password',
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              debugPrint('Email: ${_emailController.text}');
-              debugPrint('Password: ${_passwordController.text}');
-              context.authNotifier.createSession(
+            onPressed: () async {
+              final loggedIn = await context.authNotifier.createSession(
                 email: _emailController.text,
                 password: _passwordController.text,
               );
+              if (!loggedIn && mounted) {
+                debugPrint(context.authNotifier.error);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content:
+                        Text(context.authNotifier.error ?? 'Unknown error')));
+              }
             },
             child: const Text("Login"),
           ),
