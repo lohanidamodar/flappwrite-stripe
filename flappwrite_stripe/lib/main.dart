@@ -10,11 +10,12 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'utils/config.dart' as config;
 
 final client = Client();
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey = config.publishableKey;
   Stripe.merchantIdentifier = 'merchent.flappwrite.test';
   Stripe.urlScheme = 'appwrite-callback-${config.projectId}';
+  await Stripe.instance.applySettings();
   client.setEndpoint(config.endpoint).setProject(config.projectId);
   runApp(
     ProviderScope(

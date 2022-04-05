@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flappwrite_stripe/providers/cart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -9,6 +10,39 @@ import 'package:flappwrite_account_kit/flappwrite_account_kit.dart';
 class CheckoutScreen extends ConsumerWidget {
   CheckoutScreen({Key? key}) : super(key: key);
   final _cardEditController = CardEditController();
+  Future<void> _startGooglePay(BuildContext context, double total) async {
+    final googlePaySupported = await Stripe.instance
+        .isGooglePaySupported(const IsGooglePaySupportedParams());
+    if (googlePaySupported) {
+      try {
+        // 1. fetch Intent Client Secret from backend
+        final clientSecret = await fetchClientSecret(context, total);
+
+        // 2.present google pay sheet
+        await Stripe.instance.initGooglePay(const GooglePayInitParams(
+            testEnv: true,
+            merchantName: "Example Merchant Name",
+            countryCode: 'us'));
+
+        await Stripe.instance.presentGooglePay(
+          PresentGooglePayParams(clientSecret: clientSecret),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Google Pay payment succesfully completed')),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Google pay is not supported on this device')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,6 +105,16 @@ class CheckoutScreen extends ConsumerWidget {
             },
             child: const Text("Confirm"),
           ),
+          if (defaultTargetPlatform == TargetPlatform.android) ...[
+            const Text("Or"),
+            SizedBox(
+              height: 60,
+              child: GooglePayButton(
+                onTap: () =>
+                    _startGooglePay(context, ref.read(cartTotalProvider)),
+              ),
+            ),
+          ],
         ],
       ),
     );
