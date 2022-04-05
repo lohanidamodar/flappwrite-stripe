@@ -37,7 +37,7 @@ Future<void> start(final request, final response) async {
 
   // create account for customer if it doesn't already exist
   dynamic customer;
-  if (customerId != null) {
+  if (customerId == null) {
     customer =
         await stripe.core.customers.create(params: {"email": user.email});
     customerId = customer!['id'];
