@@ -18,12 +18,19 @@ class _LoginPageState extends State<LoginPage> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
+          const SizedBox(height: 40),
+          Text(
+            "Login",
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
+          const SizedBox(height: 30),
           TextField(
             controller: _emailController,
             decoration: const InputDecoration(
               labelText: 'Email',
             ),
           ),
+          const SizedBox(height: 10.0),
           TextField(
             controller: _passwordController,
             obscureText: true,
@@ -31,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
               labelText: 'Password',
             ),
           ),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {
               final loggedIn = await context.authNotifier.createSession(
