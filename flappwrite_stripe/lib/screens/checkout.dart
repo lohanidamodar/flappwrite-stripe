@@ -39,7 +39,8 @@ class CheckoutScreen extends ConsumerWidget {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Google pay is not supported on this device')),
+        const SnackBar(
+            content: Text('Google pay is not supported on this device')),
       );
     }
   }
@@ -99,8 +100,26 @@ class CheckoutScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
+          if (context.authNotifier.user?.email != null &&
+              context.authNotifier.user?.email != '')
+            Text(
+              context.authNotifier.user!.email,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          const SizedBox(height: 10.0),
           CardField(
             controller: _cardEditController,
+          ),
+          ListTile(
+            title: const Text("Total Amount"),
+            trailing: Text(
+              '\$${ref.watch(cartTotalProvider).toStringAsFixed(2)}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           ElevatedButton(
             onPressed: () => _handleCardPay(context, ref),
