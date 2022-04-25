@@ -15,43 +15,66 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: <Widget>[
-          TextField(
-            controller: _emailController,
-            decoration: const InputDecoration(
-              labelText: 'Email',
+      body: Center(
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(16.0),
+          children: <Widget>[
+            Text(
+              "Welcome back to\nAppwrite Store",
+              style: Theme.of(context).textTheme.displayMedium,
             ),
-          ),
-          TextField(
-            controller: _passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(
-              labelText: 'Password',
+            const SizedBox(height: 20.0),
+            Text(
+              "Enter to Your Account",
+              style: Theme.of(context).textTheme.displaySmall,
             ),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final loggedIn = await context.authNotifier.createSession(
-                email: _emailController.text,
-                password: _passwordController.text,
-              );
-              if (!loggedIn && mounted) {
-                debugPrint(context.authNotifier.error);
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content:
-                        Text(context.authNotifier.error ?? 'Unknown error')));
-              }
-            },
-            child: const Text("Login"),
-          ),
-          TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, 'register');
+            const SizedBox(height: 20.0),
+            const Text("Email"),
+            const SizedBox(height: 10.0),
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            const Text("Password"),
+            const SizedBox(height: 10.0),
+            TextField(
+              controller: _passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                border: OutlineInputBorder(),
+                labelText: 'Password',
+              ),
+            ),
+            const SizedBox(height: 30.0),
+            ElevatedButton(
+              onPressed: () async {
+                final loggedIn = await context.authNotifier.createSession(
+                  email: _emailController.text,
+                  password: _passwordController.text,
+                );
+                if (!loggedIn && mounted) {
+                  debugPrint(context.authNotifier.error);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content:
+                          Text(context.authNotifier.error ?? 'Unknown error')));
+                }
               },
-              child: const Text("Register")),
-        ],
+              child: const Text("Login"),
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, 'register');
+                },
+                child: const Text("Register")),
+          ],
+        ),
       ),
     );
   }

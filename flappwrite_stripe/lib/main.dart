@@ -1,4 +1,5 @@
 import 'package:flappwrite_account_kit/flappwrite_account_kit.dart';
+import 'package:flappwrite_stripe/res/colors.dart';
 import 'package:flappwrite_stripe/screens/cart.dart';
 import 'package:flappwrite_stripe/screens/checkout.dart';
 import 'package:flappwrite_stripe/screens/login.dart';
@@ -15,7 +16,7 @@ void main() async {
   Stripe.publishableKey = config.publishableKey;
   Stripe.merchantIdentifier = 'merchent.flappwrite.test';
   Stripe.urlScheme = 'appwrite-callback-${config.projectId}';
-  await Stripe.instance.applySettings();
+  // await Stripe.instance.applySettings();
   client.setEndpoint(config.endpoint).setProject(config.projectId);
   runApp(
     ProviderScope(
@@ -36,7 +37,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Appwrite Stripe Demo',
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
+        scaffoldBackgroundColor: AppColors.backgroundColor,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(0, 60),
+          ),
+        ),
       ),
       routes: {
         "/": (context) => const MainScreen(),

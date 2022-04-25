@@ -44,6 +44,52 @@ class CheckoutScreen extends ConsumerWidget {
     }
   }
 
+  _handleCardPay(BuildContext context, WidgetRef ref) async {
+    if (!_cardEditController.complete) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Card details not entered completely")));
+      return;
+    }
+
+    final clientSecret =
+        await fetchClientSecret(context, ref.watch(cartTotalProvider));
+
+    final billingDetails = BillingDetails(
+      email: context.authNotifier.user!.email,
+      phone: '+48888000888',
+      address: const Address(
+        city: 'Kathmandu',
+        country: 'NP',
+        line1: 'Chabahil, Kathmandu',
+        line2: '',
+        state: 'Bagmati',
+        postalCode: '44600',
+      ),
+    );
+
+    try {
+      final paymentIntent = await Stripe.instance.confirmPayment(
+        clientSecret,
+        PaymentMethodParams.card(
+          billingDetails: billingDetails,
+          setupFutureUsage: PaymentIntentsFutureUsage.OffSession,
+        ),
+      );
+      if (paymentIntent.status == PaymentIntentsStatus.Succeeded) {
+        ref.read(cartProvider.notifier).emptyCart();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Success!: The payment was confirmed successfully!"),
+          ),
+        );
+        Navigator.pop(context);
+      }
+    } on StripeException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.error.localizedMessage ?? e.toString())));
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -57,52 +103,7 @@ class CheckoutScreen extends ConsumerWidget {
             controller: _cardEditController,
           ),
           ElevatedButton(
-            onPressed: () async {
-              if (!_cardEditController.complete) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Card details not entered completely")));
-                return;
-              }
-
-              final clientSecret = await fetchClientSecret(
-                  context, ref.watch(cartTotalProvider));
-
-              final billingDetails = BillingDetails(
-                email: context.authNotifier.user!.email,
-                phone: '+48888000888',
-                address: const Address(
-                  city: 'Kathmandu',
-                  country: 'NP',
-                  line1: 'Chabahil, Kathmandu',
-                  line2: '',
-                  state: 'Bagmati',
-                  postalCode: '44600',
-                ),
-              );
-
-              try {
-                final paymentIntent = await Stripe.instance.confirmPayment(
-                  clientSecret,
-                  PaymentMethodParams.card(
-                    billingDetails: billingDetails,
-                    setupFutureUsage: PaymentIntentsFutureUsage.OffSession,
-                  ),
-                );
-                if (paymentIntent.status == PaymentIntentsStatus.Succeeded) {
-                  ref.read(cartProvider.notifier).emptyCart();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                          "Success!: The payment was confirmed successfully!"),
-                    ),
-                  );
-                  Navigator.pop(context);
-                }
-              } on StripeException catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(e.error.localizedMessage ?? e.toString())));
-              }
-            },
+            onPressed: () => _handleCardPay(context, ref),
             child: const Text("Confirm"),
           ),
           if (defaultTargetPlatform == TargetPlatform.android) ...[
