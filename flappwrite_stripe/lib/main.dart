@@ -10,6 +10,7 @@ import 'package:flappwrite_stripe/widgets/build_with_appwrite_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'utils/config.dart' as config;
 
 final client = Client();
@@ -48,17 +49,17 @@ class MyApp extends StatelessWidget {
             minimumSize: const Size(0, 60),
           ),
         ),
-        appBarTheme: const AppBarTheme(
+        appBarTheme: AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: AppColors.secondaryColor,
           ),
-          actionsIconTheme: IconThemeData(
+          actionsIconTheme: const IconThemeData(
             color: AppColors.secondaryColor,
           ),
-          foregroundColor: AppColors.titleTextColor,
-          titleTextStyle: TextStyle(
+          foregroundColor: const Color.fromRGBO(55, 59, 77, 1),
+          titleTextStyle: GoogleFonts.poppins(
             fontWeight: FontWeight.w600,
             fontSize: 16.0,
             color: AppColors.titleTextColor,
@@ -67,10 +68,13 @@ class MyApp extends StatelessWidget {
         cardTheme: const CardTheme(
           elevation: 0.5,
         ),
-        textTheme: TextTheme(
-          displayMedium: ThemeData.light().textTheme.displayMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.titleTextColor,
+        textTheme: GoogleFonts.poppinsTextTheme(
+          ThemeData.light().textTheme.copyWith(
+                displayMedium:
+                    ThemeData.light().textTheme.displayMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.titleTextColor,
+                        ),
               ),
         ),
       ),
