@@ -1,7 +1,7 @@
 import 'package:appwrite/models.dart';
 import 'package:flappwrite_stripe/models/product.dart';
 import 'package:flutter/material.dart';
-import 'package:flappwrite_account_kit/flappwrite_account_kit.dart';
+import 'package:appwrite_auth_kit/appwrite_auth_kit.dart';
 
 import '../widgets/product_item.dart';
 
@@ -15,8 +15,8 @@ class HomePage extends StatelessWidget {
         title: const Text('Appwrite Store'),
         actions: [
           IconButton(
-            onPressed: () {
-              context.authNotifier.deleteSession();
+            onPressed: () async {
+              await context.authNotifier.deleteSession();
             },
             icon: const Icon(Icons.exit_to_app),
           ),

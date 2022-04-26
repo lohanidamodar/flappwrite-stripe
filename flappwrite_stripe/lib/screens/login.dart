@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flappwrite_account_kit/flappwrite_account_kit.dart';
+import 'package:appwrite_auth_kit/appwrite_auth_kit.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

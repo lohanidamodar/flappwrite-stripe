@@ -1,4 +1,5 @@
 import 'package:flappwrite_stripe/providers/cart.dart';
+import 'package:flappwrite_stripe/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -39,6 +40,9 @@ class CartScreen extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: AppColors.titleTextColor,
+                    ),
                     onPressed: () {
                       Navigator.pushNamed(context, 'checkout');
                     },

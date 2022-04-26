@@ -12,9 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_stripe: ^2.4.0
-  flappwrite_account_kit:
-    git: https://github.com/lohanidamodar/flappwrite_account_kit
   flutter_riverpod: ^1.0.3
+  flutter_svg: ^1.0.3
+  url_launcher: ^6.1.0
+  appwrite_auth_kit: ^0.1.0
 
 dev_dependencies:
   flutter_test:
@@ -23,27 +24,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets: 
+    - assets/
 
-  
-  
-  
-  
-
-  
-  
-
-  
-  
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   
   

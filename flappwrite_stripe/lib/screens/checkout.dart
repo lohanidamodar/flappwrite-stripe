@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:flappwrite_account_kit/flappwrite_account_kit.dart';
+import 'package:appwrite_auth_kit/appwrite_auth_kit.dart';
 
 class CheckoutScreen extends ConsumerWidget {
   CheckoutScreen({Key? key}) : super(key: key);
