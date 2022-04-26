@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Appwrite Shop'),
+        title: const Text('Appwrite Store'),
         actions: [
           IconButton(
             onPressed: () {
@@ -35,7 +35,11 @@ class HomePage extends StatelessWidget {
             if (snapshot.data == null) return const CircularProgressIndicator();
             final docs = snapshot.data!.convertTo((product) =>
                 Product.fromMap(Map<String, dynamic>.from(product)));
-            return ListView.builder(
+            return GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.6,
+              ),
               itemCount: docs.length,
               padding: const EdgeInsets.all(16.0),
               itemBuilder: (context, index) => ProductItem(docs[index]),

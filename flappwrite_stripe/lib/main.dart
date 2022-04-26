@@ -44,6 +44,28 @@ class MyApp extends StatelessWidget {
             minimumSize: const Size(0, 60),
           ),
         ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: AppColors.secondaryColor,
+          ),
+          actionsIconTheme: IconThemeData(
+            color: AppColors.secondaryColor,
+          ),
+          foregroundColor: AppColors.titleTextColor,
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 16.0,
+            color: AppColors.titleTextColor,
+          ),
+        ),
+        textTheme: TextTheme(
+          displayMedium: ThemeData.light().textTheme.displayMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppColors.titleTextColor,
+              ),
+        ),
       ),
       routes: {
         "/": (context) => const MainScreen(),

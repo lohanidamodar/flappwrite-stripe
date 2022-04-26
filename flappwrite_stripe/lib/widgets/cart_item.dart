@@ -10,17 +10,35 @@ class CartItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      title: Text(product.name),
-      subtitle: Text("\$${product.price}"),
-      leading: Image.network(product.imageUrl),
-      trailing: IconButton(
-        icon: const Icon(Icons.remove),
-        onPressed: () {
-          ref.watch(cartProvider.notifier).removeProduct(product.id);
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Product removed from the cart.")));
-        },
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                product.imageUrl,
+                height: 100,
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListTile(
+              title: Text(product.name),
+              subtitle: Text("\$${product.price}"),
+              trailing: IconButton(
+                icon: const Icon(Icons.remove),
+                onPressed: () {
+                  ref.watch(cartProvider.notifier).removeProduct(product.id);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Product removed from the cart.")));
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
