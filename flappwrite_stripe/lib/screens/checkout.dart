@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flappwrite_stripe/main.dart';
 import 'package:flappwrite_stripe/providers/cart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:appwrite_auth_kit/appwrite_auth_kit.dart';
 class CheckoutScreen extends ConsumerWidget {
   CheckoutScreen({Key? key}) : super(key: key);
   final _cardEditController = CardEditController();
+
   Future<void> _startGooglePay(BuildContext context, double total) async {
     final googlePaySupported = await Stripe.instance
         .isGooglePaySupported(const IsGooglePaySupportedParams());
@@ -55,6 +57,11 @@ class CheckoutScreen extends ConsumerWidget {
     final clientSecret =
         await fetchClientSecret(context, ref.watch(cartTotalProvider));
 
+    if (clientSecret.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Unable to receive client secret")));
+    }
+
     final billingDetails = BillingDetails(
       email: context.authNotifier.user!.email,
       phone: '+48888000888',
@@ -72,8 +79,9 @@ class CheckoutScreen extends ConsumerWidget {
       final paymentIntent = await Stripe.instance.confirmPayment(
         clientSecret,
         PaymentMethodParams.card(
-          billingDetails: billingDetails,
-          setupFutureUsage: PaymentIntentsFutureUsage.OffSession,
+          paymentMethodData: PaymentMethodData(billingDetails: billingDetails),
+          options: const PaymentMethodOptions(
+              setupFutureUsage: PaymentIntentsFutureUsage.OffSession),
         ),
       );
       if (paymentIntent.status == PaymentIntentsStatus.Succeeded) {
@@ -149,8 +157,8 @@ class CheckoutScreen extends ConsumerWidget {
           'amount': (total * 100).toInt(),
         }),
         xasync: false);
-    if (execution.stdout.isNotEmpty) {
-      final data = jsonDecode(execution.stdout);
+    if (execution.response.isNotEmpty) {
+      final data = jsonDecode(execution.response);
       return data['client_secret'];
     }
     return '';

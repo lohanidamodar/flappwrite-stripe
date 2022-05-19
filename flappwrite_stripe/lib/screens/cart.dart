@@ -1,9 +1,9 @@
+import 'package:flappwrite_stripe/models/cart_product.dart';
 import 'package:flappwrite_stripe/providers/cart.dart';
 import 'package:flappwrite_stripe/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/product.dart';
 import '../widgets/cart_item.dart';
 import '../widgets/empty_cart.dart';
 
@@ -12,7 +12,7 @@ class CartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Product> products = ref.watch(cartProvider);
+    List<CartProduct> products = ref.watch(cartProvider);
     final total = ref.watch(cartTotalProvider);
     return Scaffold(
       appBar: AppBar(
