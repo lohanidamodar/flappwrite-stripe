@@ -23,7 +23,7 @@ class BuiltWithAppwriteWrapper extends StatelessWidget {
                       launchUrl(Uri.parse('https://appwrite.io'));
                     } catch (e) {}
                   },
-                  child: SvgPicture.asset('assets/built-with-appwrite-hr.svg')),
+                  child: SvgPicture.asset('assets/built-with-appwrite.svg')),
             ),
           ),
         ],

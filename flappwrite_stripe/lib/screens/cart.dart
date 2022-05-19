@@ -25,32 +25,50 @@ class CartScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: products.length,
+                    itemCount: products.length + 1,
                     padding: const EdgeInsets.all(16.0),
-                    itemBuilder: (context, index) => CartItem(products[index]),
-                  ),
-                ),
-                ListTile(
-                  title: const Text("Total"),
-                  trailing: Text(
-                    "\$$total",
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: AppColors.titleTextColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, 'checkout');
-                    },
-                    child: const Text("Checkout"),
+                    itemBuilder: (context, index) => index == products.length
+                        ? CheckoutTotal(total: total)
+                        : CartItem(products[index]),
                   ),
                 ),
               ],
             ),
+    );
+  }
+}
+
+class CheckoutTotal extends StatelessWidget {
+  const CheckoutTotal({Key? key, required this.total}) : super(key: key);
+  final double total;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ListTile(
+          title: const Text("Total"),
+          trailing: Text(
+            "\$$total",
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: AppColors.titleTextColor,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, 'checkout');
+            },
+            child: const Text("Checkout"),
+          ),
+        ),
+        const SizedBox(height: 30.0),
+      ],
     );
   }
 }
