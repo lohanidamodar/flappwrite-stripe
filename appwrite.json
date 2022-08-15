@@ -1,6 +1,51 @@
 {
     "projectId": "flutter-stripe",
     "projectName": "flutter-stripe",
+    "collections": [
+        {
+            "$id": "products",
+            "$createdAt": 0,
+            "$updatedAt": 1656457340,
+            "$read": [
+                "role:all"
+            ],
+            "$write": [],
+            "name": "Products",
+            "enabled": true,
+            "permission": "collection",
+            "attributes": [
+                {
+                    "key": "name",
+                    "type": "string",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "size": 255,
+                    "default": null
+                },
+                {
+                    "key": "price",
+                    "type": "double",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "min": -1.7976931348623157e+308,
+                    "max": 1.7976931348623157e+308,
+                    "default": null
+                },
+                {
+                    "key": "imageUrl",
+                    "type": "string",
+                    "status": "available",
+                    "required": false,
+                    "array": false,
+                    "size": 2048,
+                    "default": null
+                }
+            ],
+            "indexes": []
+        }
+    ]
     "functions": [
         {
             "$id": "createPaymentIntent",
