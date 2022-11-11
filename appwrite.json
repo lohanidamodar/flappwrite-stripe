@@ -45,7 +45,7 @@
             ],
             "indexes": []
         }
-    ]
+    ],
     "functions": [
         {
             "$id": "createPaymentIntent",
